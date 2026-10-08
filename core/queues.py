@@ -79,6 +79,7 @@ class LogicalQueue:
         self.buffer: deque[TacticalPacket] = deque()
         self.total_bytes: int = 0
         self.cumulative_arrived_bytes: int = 0
+        self.cumulative_arrived_packets: int = 0
         self.cumulative_dropped_bytes: int = 0
         self.cumulative_delivered_bytes: int = 0
         self.cumulative_dropped_packets: int = 0
@@ -91,6 +92,7 @@ class LogicalQueue:
         self.buffer.append(packet)
         self.total_bytes += packet.remaining_bytes
         self.cumulative_arrived_bytes += packet.remaining_bytes
+        self.cumulative_arrived_packets += 1
         self._assert_conservation()
 
     def purge_expired_packets(self, current_time_sec: float) -> int:
